@@ -3,7 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.3.1",
+    "chart.js": "^2.9.2",
+    "fusioncharts": "^3.14.1",
+    "jwt-decode": "^2.2.0",
+    "ra-data-json-server": "^2.9.8",
+    "ra-data-simple-rest": "^2.9.8",
     "react": "^16.11.0",
+    "react-admin": "^2.9.8",
+    "react-chartjs-2": "^2.8.0",
     "react-dom": "^16.11.0",
     "react-scripts": "3.2.0"
   },
