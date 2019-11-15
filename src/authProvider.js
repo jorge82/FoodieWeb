@@ -11,8 +11,7 @@ export default (type, params) => {
     if (type === AUTH_LOGIN) {
       
         const { username, password } = params;
-        const user='admin';
-        const pass='admin';
+       
         const rol=3;
         const apiToken=-1;
         const request = new Request(API_URL_LOGIN, {
@@ -22,11 +21,7 @@ export default (type, params) => {
             mode:'cors'
         })
       
-        if (type === AUTH_LOGOUT) {
-            localStorage.removeItem('mail');
-            localStorage.removeItem('pass');
-            return Promise.resolve("AUTH_LOGOUT");
-        }
+      
         return fetch(request)
        
             .then(response => {
@@ -47,7 +42,19 @@ export default (type, params) => {
             });
     
         }
+        if (type === AUTH_LOGOUT) {
+            localStorage.removeItem('token');
+
+            return Promise.resolve();
+        }
+        if (type === AUTH_CHECK) {
+            return localStorage.getItem('token') ? Promise.resolve() : Promise.reject();
+        }
+     
+        if (type === AUTH_GET_PERMISSIONS) {
+            return localStorage.getItem('token') ? Promise.resolve() : Promise.reject();
+        }
     
-    return Promise.resolve();
+    return Promise.reject();
     
 }
