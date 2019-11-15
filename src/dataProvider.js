@@ -9,9 +9,9 @@ import {
     fetchUtils,
 } from 'react-admin';
 import { stringify } from 'query-string';
-
+import jsonServerProvider from 'ra-data-json-server';
 const API_URL = 'https://polar-stream-82449.herokuapp.com/api';
-
+//const API_URL='http://localhost:5000/api';
 /**
  * @param {String} type One of the constants appearing at the top of this file, e.g. 'UPDATE'
  * @param {String} resource Name of the resource to fetch, e.g. 'posts'
@@ -19,6 +19,21 @@ const API_URL = 'https://polar-stream-82449.herokuapp.com/api';
  * @returns {Object} { url, options } The HTTP request parameters
  */
 const convertDataProviderRequestToHTTP = (type, resource, params) => {
+    
+    let url = '';
+    const options = {
+        headers : new Headers({
+            Accept: 'application/json',
+ 
+        }),
+    };
+ 
+
+
+    const token = localStorage.getItem('token');
+    options.headers.set('token', token);
+    console.log('token:')
+    console.log(token)
     switch (type) {
     case GET_LIST: {
         const { page, perPage } = params.pagination;
@@ -28,8 +43,12 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
             range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
             filter: JSON.stringify(params.filter),
         };
-       // return { url: `${API_URL}/${resource}?${stringify(query)}` };
-       return { url: `http://localhost:5000/api/user` };
+        return {
+            url: `${API_URL}/${resource}/`,
+            options: { method: 'GET',  headers: new Headers({"token" : token})},
+    
+        };
+       //return { url: `http://localhost:5000/api/user` };
         //return { url:  'https://polar-stream-82449.herokuapp.com/api/user'};
     }
     case GET_ONE:
@@ -54,17 +73,18 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
     case UPDATE:
         return {
             url: `${API_URL}/${resource}/${params.id}`,
-            options: { method: 'PUT', body: JSON.stringify(params.data) },
+            options: { method: 'PUT', body: JSON.stringify(params.data),  headers: new Headers({"token" : token})},
+    
         };
     case CREATE:
         return {
-            url: `${API_URL}/${resource}`,
+            url: `${API_URL}/${resource}/register`,
             options: { method: 'POST', body: JSON.stringify(params.data) },
         };
     case DELETE:
         return {
             url: `${API_URL}/${resource}/${params.id}`,
-            options: { method: 'DELETE' },
+            options: { method: 'DELETE', body: JSON.stringify({'id' : params.id}),headers: new Headers({"token" : token}) },
         };
     default:
         throw new Error(`Unsupported fetch action type ${type}`);
@@ -83,18 +103,42 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
     console.log(response)
     switch (type) {
     case GET_LIST:
+            if(resource==='comercio'){
         return {
-            data: json.data.map(x => x),
-            total:1
+           //data: json.data.map(x => x),
+           data: json.data.map(resource => ({ ...resource, id: resource.com_id })), 
+           total:1,
+          
            // total: parseInt(headers.get('content-range').split('/').pop(), 10),
         };
+        }else{
+            return {
+                data: json.data.map(x => x),
+                
+                total:1,
+               
+                // total: parseInt(headers.get('content-range').split('/').pop(), 10),
+             };
+        }
+        
+       
     case CREATE:
         return { data: { ...params.data, id: json.id } };
+    case UPDATE:
+        return { data:{ ...params.data, id: params.data.id }  };
     default:
         return { data: json };
     }
 };
-
+const httpClient = (url, options = {}) => {
+    if (!options.headers) {
+        options.headers = new Headers({ Accept: 'application/json' });
+    }
+    const token = localStorage.getItem('token');
+    options.headers.set('Authorization', `Bearer ${token}`);
+    return fetchUtils.fetchJson(url, options);
+   
+}
 /**
  * @param {string} type Request type, e.g GET_LIST
  * @param {string} resource Resource name, e.g. "posts"
@@ -104,6 +148,8 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
 export default (type, resource, params) => {
     const { fetchJson } = fetchUtils;
     const { url, options } = convertDataProviderRequestToHTTP(type, resource, params);
+  
+    
     return fetchJson(url, options)
         .then(response => convertHTTPResponseToDataProvider(response, type, resource, params));
 };

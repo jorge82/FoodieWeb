@@ -4,37 +4,78 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import {Bar, Line,Pie,Doughnut} from 'react-chartjs-2';
 import Grid from '@material-ui/core/Grid';
+import { Button } from '@material-ui/core';
+import 'chart.piecelabel.js';
+import Estadisticas_User from './EstadisticasUsers';
+let  users=localStorage.getItem('total_usuarios');
+let  clients=localStorage.getItem('total_clientes');
+let  admins=localStorage.getItem('total_administradores');
+let  deliveries=localStorage.getItem('total_deliveries');
+let  social_users=localStorage.getItem('total_red_social');
+let  no_social_users=localStorage.getItem('total_no_red_social');
 const state = {
-    labels: ['January', 'February', 'March',
-             'April', 'May'],
+    labels: ['Num. usuarios', 'Num. clientes', 'Num. deliveries',
+    'Num. administradores'],
     datasets: [
       {
-        label: 'Rainfall',
-        backgroundColor: 'rgba(75,192,192,1)',
+        label:"Users",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
         borderColor: 'rgba(0,0,0,1)',
         borderWidth: 2,
-        data: [65, 59, 80, 81, 56]
+        data: [users, clients,deliveries,admins]
       }
     ]
   }
+  const state_social = {
+    labels: ['Num. usuarios reg. red social', 'Num. usuarios reg. no red social '],
+    datasets: [
+      {
+        label:"Users",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+        //backgroundColor: 'rgba(115,192,192,1)',
+        borderColor: 'rgba(1,2,0,1)',
+        borderWidth: 2,
+        data: [social_users, no_social_users]
+        
+      }
+    ]
+  }
+
 export default () => (
-    
+
+
+  
     <Card>
+    <Estadisticas_User/> 
+     
         <CardHeader title="Foodie Dashboard" />
-        <CardContent>Aca van algunos graficos... </CardContent>
+        <CardContent>KPI´s </CardContent>
+       
+        
       <Grid container spacing={24}>
           <Grid item xs={6}>
        <div style={{width: 400, height: 300}}>
+     
         <Bar
           data={state}
           options={{
             title:{
               display:true,
-              text:'Average Rainfall per month',
+              text:"Users",
               fontSize:15          
             },
+          ticks: {
+            beginAtZero: true
+            },
+            
+          scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]},
             legend:{
-              display:true,
+              display:false,
               position:'right'
             }
           }}
@@ -48,12 +89,12 @@ export default () => (
           options={{
             title:{
               display:true,
-              text:'Average Rainfall per month',
+              text:state.title,
               fontSize:20
             },
             legend:{
-              display:true,
-              position:'right'
+              display:false,
+              position:'false'
             }
           }}
         />
@@ -64,16 +105,21 @@ export default () => (
           <Grid item xs={6}>
       <div style={{width: 400, height: 300, alignItems:'right'}} >
         <Pie
-          data={state}
+          data={state_social}
           options={{
             title:{
               display:true,
-              text:'Average Rainfall per month',
+              text:"User Social Media",
               fontSize:20
-            },
+            },pieceLabel: {
+              render: 'value'
+           },
             legend:{
               display:true,
               position:'right'
+            },
+            animation:{
+              animateRotate:true
             }
           }}
         />
@@ -86,7 +132,7 @@ export default () => (
           options={{
             title:{
               display:true,
-              text:'Average Rainfall per month',
+              text:state.title,
               fontSize:20
             },
             legend:{
@@ -101,4 +147,6 @@ export default () => (
       </Grid>
     
     </Card>
+  
 );
+

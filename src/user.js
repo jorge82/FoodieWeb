@@ -1,7 +1,9 @@
 import React from 'react';
+import { List, Datagrid, TextField, ReferenceField ,EditButton,DeleteButton, ReferenceInput,
+    SimpleForm,SelectInput, TextInput,DisabledInput,LongTextInput,
+    Create, Edit,Filter} from 'react-admin';
 
-import { List, Datagrid, TextField, EmailField, UrlField } from 'react-admin';
-import MyUrlField from './MyUrlField';
+
 export const UserList = props => (
     <List {...props}>
         <Datagrid rowClick="edit">
@@ -17,9 +19,64 @@ export const UserList = props => (
             <TextField source="redsocial" />
             <TextField source="uidfirebase" />
             <TextField source="mail" />
-          
+            <EditButton/>
+            <DeleteButton/>
+           
           
             
         </Datagrid>
     </List>
+);
+
+const UserFilter = (props) => (
+    <Filter {...props}>
+        <TextInput label="Buscar" source="q" alwaysOn />
+        <ReferenceInput label="Nombre" source="nombre" reference="users" allowEmpty>
+            <SelectInput optionText="name" />
+        </ReferenceInput>
+    </Filter>
+);
+
+const UserName = ({ record }) => {
+       return <span>Post {record ? `"${record.nombre}"` : ''}</span>;
+};
+export const UserEdit = props => (
+    <Edit title={<UserName />} {...props}>
+        <SimpleForm>
+        <DisabledInput source="id" />
+           
+            <TextInput source="nombre" />
+            <TextInput source="pass" />
+            <TextInput source="mail" />
+            <TextInput source="rol" />
+            <TextInput source="puntaje" />
+            <TextInput source="nivel" />
+            <TextInput source="foto" />
+            <TextInput source="cantEnvios" />
+            <TextInput source="redsocial" />
+            <TextInput source="uidfirebase" />
+            <TextInput source="mail" />
+        </SimpleForm>
+    </Edit>
+);
+
+export const UserCreate = props => (
+    <Create {...props}>
+        <SimpleForm>
+    
+
+            <TextInput source="nombre" />
+            <TextInput source="pass" />
+            <TextInput source="mail" />
+            <TextInput source="rol" />
+            <TextInput source="puntaje" />
+            <TextInput source="nivel" />
+            <TextInput source="foto" />
+            <TextInput source="cantEnvios" />
+            <TextInput source="redsocial" />
+            <TextInput source="uidfirebase" />
+            <TextInput source="mail" />
+        
+        </SimpleForm>
+    </Create>
 );
