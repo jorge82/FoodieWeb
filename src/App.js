@@ -65,7 +65,5 @@ class App extends React.Component {
   );
   }
 }
- //
- //<Resource  name="posts"  list={PostList} edit={PostEdit} create={PostCreate} icon={PostIcon} /> 
- //  <Resource name="comercios" list={ComercioList}   icon={UserIcon} />
+
 export default App;

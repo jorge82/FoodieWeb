@@ -22,7 +22,11 @@ export default (type, params) => {
             mode:'cors'
         })
       
-      
+        if (type === AUTH_LOGOUT) {
+            localStorage.removeItem('mail');
+            localStorage.removeItem('pass');
+            return Promise.resolve("AUTH_LOGOUT");
+        }
         return fetch(request)
        
             .then(response => {
