@@ -7,12 +7,14 @@ import Grid from '@material-ui/core/Grid';
 import { Button } from '@material-ui/core';
 import 'chart.piecelabel.js';
 import Estadisticas_User from './EstadisticasUsers';
+import Estadisticas_Comercio from './EstadisticasComercio';
 let  users=localStorage.getItem('total_usuarios');
 let  clients=localStorage.getItem('total_clientes');
 let  admins=localStorage.getItem('total_administradores');
 let  deliveries=localStorage.getItem('total_deliveries');
 let  social_users=localStorage.getItem('total_red_social');
 let  no_social_users=localStorage.getItem('total_no_red_social');
+let  comercios=localStorage.getItem('total_comercios');
 const state = {
     labels: ['Num. usuarios', 'Num. clientes', 'Num. deliveries',
     'Num. administradores'],
@@ -40,6 +42,20 @@ const state = {
       }
     ]
   }
+  const state_comercios= {
+    labels: ['Num. comercios'],
+    datasets: [
+      {
+        label:"Comercios",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+        //backgroundColor: 'rgba(115,192,192,1)',
+        borderColor: 'rgba(1,2,0,1)',
+        borderWidth: 2,
+        data: [comercios]
+        
+      }
+    ]
+  }
 
 export default () => (
 
@@ -47,6 +63,8 @@ export default () => (
   
     <Card>
     <Estadisticas_User/> 
+    <Estadisticas_Comercio/> 
+     
      
         <CardHeader title="Foodie Dashboard" />
         <CardContent>KPI´s </CardContent>
@@ -82,6 +100,36 @@ export default () => (
         />
         </div>
         </Grid>
+        <Grid item xs={6}>
+       <div style={{width: 400, height: 300}}>
+     
+        <Bar
+          data={state_comercios}
+          options={{
+            title:{
+              display:true,
+              text:"Comercios",
+              fontSize:15          
+            },
+          ticks: {
+            beginAtZero: true
+            },
+            
+          scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]},
+            legend:{
+              display:false,
+              position:'right'
+            }
+          }}
+        />
+        </div>
+        </Grid>
+         
           <Grid item xs={6}>
         <div style={{width: 400, height: 300}}>
         <Line

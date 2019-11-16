@@ -28,7 +28,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
         }),
     };
  
-
+    console.log("tipo, recurso y parametros:",type, resource,params)
 
     const token = localStorage.getItem('token');
     options.headers.set('token', token);

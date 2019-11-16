@@ -18,7 +18,7 @@ export const UserList = props => (
             <TextField source="cantEnvios" />
             <TextField source="redsocial" />
             <TextField source="uidfirebase" />
-            <TextField source="mail" />
+         
             <EditButton/>
             <DeleteButton/>
            
@@ -55,7 +55,7 @@ export const UserEdit = props => (
             <TextInput source="cantEnvios" />
             <TextInput source="redsocial" />
             <TextInput source="uidfirebase" />
-            <TextInput source="mail" />
+       
         </SimpleForm>
     </Edit>
 );
@@ -75,7 +75,7 @@ export const UserCreate = props => (
             <TextInput source="cantEnvios" />
             <TextInput source="redsocial" />
             <TextInput source="uidfirebase" />
-            <TextInput source="mail" />
+           
         
         </SimpleForm>
     </Create>
