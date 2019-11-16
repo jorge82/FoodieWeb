@@ -10,7 +10,9 @@ import { Button } from '@material-ui/core';
 class Estadisticas_Comercio extends React.Component {
     constructor() {
         super()
-        Obtener_datos('comercio')
+        if(localStorage.getItem('token')!==null){
+          Obtener_datos('comercio')
+        }
      
       }
  
