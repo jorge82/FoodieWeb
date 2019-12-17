@@ -1,3 +1,4 @@
+
 import {
     GET_LIST,
     GET_ONE,
@@ -8,9 +9,15 @@ import {
     DELETE,
     fetchUtils,
 } from 'react-admin';
+import React from 'react'
 import { stringify } from 'query-string';
 import jsonServerProvider from 'ra-data-json-server';
+import FirebaseAuthProvider from './FirebaseAuthProvider';
+import { Card } from '@material-ui/core';
+
+
 const API_URL = 'https://polar-stream-82449.herokuapp.com/api';
+
 //const API_URL='http://localhost:5000/api';
 /**
  * @param {String} type One of the constants appearing at the top of this file, e.g. 'UPDATE'
@@ -34,6 +41,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
     options.headers.set('token', token);
     console.log('token:')
     console.log(token)
+    
     switch (type) {
     case GET_LIST: {
         const { page, perPage } = params.pagination;
@@ -43,6 +51,13 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
             range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
             filter: JSON.stringify(params.filter),
         };
+        if(resource==='pedido'){
+            return {
+                url: `${API_URL}/${resource}/all`,
+                options: { method: 'GET',  headers: new Headers({"token" : token})},
+
+        }
+        }
         return {
             url: `${API_URL}/${resource}/`,
             options: { method: 'GET',  headers: new Headers({"token" : token})},
@@ -51,8 +66,14 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
        //return { url: `http://localhost:5000/api/user` };
         //return { url:  'https://polar-stream-82449.herokuapp.com/api/user'};
     }
-    case GET_ONE:
-        return { url: `${API_URL}/${resource}/${params.id}` };
+    case GET_ONE: {
+        return {
+            url: `${API_URL}/${resource}/${params.id}`,
+            options: { method: 'GET',  headers: new Headers({"token" : token})},
+    
+        };
+        // { url: `${API_URL}/${resource}/${params.id}`};
+    }
     case GET_MANY: {
         const query = {
             filter: JSON.stringify({ id: params.ids }),
@@ -77,9 +98,13 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
     
         };
     case CREATE:
+        
+              
         return {
+        
+           
             url: `${API_URL}/${resource}/register`,
-            options: { method: 'POST', body: JSON.stringify(params.data) },
+            options: { method: 'POST', body: JSON.stringify(params.data),  headers: new Headers({"token" : token}) },
         };
     case DELETE:
         return {
@@ -110,7 +135,23 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
            total:1,
           
            // total: parseInt(headers.get('content-range').split('/').pop(), 10),
-        };
+        }}else if(resource==='pedido'){
+           
+            var recurso='pedidos'
+            //console.log(response)
+            console.log(json.data)
+            console.log(resource.ped_id)
+            return {
+
+
+              
+               
+               
+                //data: json.data.map(resource => ({ ...resource, id: resourped_id })), 
+                data: json.data.map(resource => ({ ...resource, id: resource.ped_id })), 
+                total:1,
+
+            }
         }else{
             return {
                 data: json.data.map(x => x),
@@ -120,10 +161,22 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
                 // total: parseInt(headers.get('content-range').split('/').pop(), 10),
              };
         }
-        
-       
+        case GET_ONE:
+            if(resource==='comercio'){
+        return {
+           //data: json.data.map(x => x),
+         //data: json.data.map(resource => ({ ...resource, id: resource.com_id }))
+           
+          data:{...json, id: resource.com_id}
+          //  data: json 
+           // total: parseInt(headers.get('content-range').split('/').pop(), 10),
+        };
+    }else{
+        return { data: json };
+    }
+    
     case CREATE:
-        return { data: { ...params.data, id: json.id } };
+        return { data: { ...params.data, id: json.dato.id } };
     case UPDATE:
         return { data:{ ...params.data, id: params.data.id }  };
     default:

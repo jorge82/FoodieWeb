@@ -7,11 +7,14 @@ import { Admin, Login,Resource,sidebar, ListGuesser ,EditGuesser,fetchUtils} fro
 //import { UserList } from './users';
 import { UserList , UserCreate, UserEdit} from './user';
 import {ComercioList, ComercioCreate, ComercioEdit} from './comercio';
+import {PedidoList, PedidoCreate, PedidoEdit} from './pedido';
 import jsonServerProvider from 'ra-data-json-server';
 import PostIcon from '@material-ui/icons/Book';
 import UserIcon from '@material-ui/icons/Group';
 import Shop from '@material-ui/icons/Shop';
+import MotorcycleIcon from '@material-ui/icons/Motorcycle';
 import Dashboard from './Dashboard';
+
 import authProvider from './authProvider';
 import Background from './foodieback.png';
 import { withStyles } from '@material-ui/core/styles';
@@ -20,6 +23,7 @@ import green from '@material-ui/core/colors/green';
 import pink from '@material-ui/core/colors/pink';
 import red from '@material-ui/core/colors/red';
 import color from '@material-ui/core/colors/indigo';
+import FirebaseAuthProvider from "./FirebaseAuthProvider.js"
 
 const httpClient = (url, options = {}) => {
   options.user = {
@@ -51,11 +55,13 @@ const MyLoginPage = () => <Login height="100%" backgroundImage={Background} />;
 class App extends React.Component {
   
   render(){
+    
   return(
     
   <Admin  dashboard={Dashboard} theme={theme} loginPage={MyLoginPage} authProvider={authProvider} dataProvider={dataProvider}>
            <Resource name="user" list={UserList}  icon={UserIcon} create={UserCreate} edit={UserEdit} />
            <Resource name="comercio" list={ComercioList}   icon={Shop} create={ComercioCreate} edit={ComercioEdit}  />
+           <Resource name="pedido" list={PedidoList}   icon={MotorcycleIcon}   />
         
       
       </Admin>

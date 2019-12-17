@@ -11,6 +11,7 @@ class Estadisticas_User extends React.Component {
     constructor() {
         super()
         Obtener_datos('user')
+       get_top10( ) 
      
       }
  
@@ -78,6 +79,8 @@ function Obtener_datos ( resource)  {
     return Promise.resolve();
     
 }
+
+
 function getCountUser(obj, valor) {
   var count = 0;
   for (var i = 0; i < obj.length; i++) {
@@ -98,6 +101,16 @@ function getCountRedSocial(obj) {
     }
     return count;
   }
+  function getTop10Users(obj) {
+    var names={};
+    for (var i = 0; i < obj.length; i++) {
+      names[obj[i].nombre]=obj[i].puntaje
+       
+    }
+    return names
+  }
+
+ 
   function getCountNoRedSocial(obj) {
     var count = 0;
     for (var i = 0; i < obj.length; i++) {
@@ -107,5 +120,46 @@ function getCountRedSocial(obj) {
         }
     }
     return count;
+  }
+
+  function get_top10( )  {
+    //const API_URL='http://localhost:5000/api/user/topDiezUser'
+    
+    const API_URL=`https://polar-stream-82449.herokuapp.com/api/user/topDiezUser`;
+         
+          const request = new Request(API_URL, {
+              method: 'GET',
+        
+              headers: new Headers({ 'Content-Type': 'application/json' ,'token':localStorage.getItem('token')}),
+      
+          })
+        
+        
+          return fetch(request)
+         
+              .then(response => {
+                  if (response.status <200 || response.status >= 300) {
+                      console.log(response)
+                    throw new Error(response.message);
+                  }
+                  return response.json();
+               
+            
+              })
+              
+              
+              .then(({ data }) => {
+                console.log("los top 10 son: ",data)
+                //localStorage.setItem('top_10_users_names', data.map(x=>x.nombre));
+                localStorage.setItem('top_10_users_names', JSON.stringify(getTop10Users(data)));
+                
+  
+                  
+              });
+      
+          
+      
+      return Promise.resolve();
+      
   }
 export default Estadisticas_User;

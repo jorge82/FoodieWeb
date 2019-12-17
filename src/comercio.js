@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { List, Datagrid, TextField, ReferenceField ,EditButton,DeleteButton, ReferenceInput,
-    SimpleForm,SelectInput, TextInput,DisabledInput,LongTextInput,
+    SimpleForm,SelectInput, TextInput,DisabledInput,LongTextInput,NumberInput,
     Create, Edit,Filter} from 'react-admin';
 
 export const ComercioList = props => (
@@ -38,13 +38,13 @@ export const ComercioEdit = props => (
         <SimpleForm>
         <DisabledInput source="com_id" />
            
-        <TextInput source="com_nombre" />
+        <TextInput source="com_nombre" name="nombre"/>
     
             <TextInput source="com_direccion" />
             <TextInput source="com_descripcion" />
-            <TextInput source="com_latitud" />
-            <TextInput source="com_longitud" />
-            <TextInput source="com_estado" />
+            <NumberInput source="com_latitud" />
+            <NumberInput source="com_longitud" />
+            <NumberInput source="com_estado" />
         </SimpleForm>
     </Edit>
 );
@@ -54,13 +54,13 @@ export const ComercioCreate = props => (
         <SimpleForm>
     
 
-        <TextInput source="com_nombre" />
+        <TextInput source="nombre" />
     
-    <TextInput source="com_direccion" />
-    <TextInput source="com_descripcion" />
-    <TextInput source="com_latitud" />
-    <TextInput source="com_longitud" />
-    <TextInput source="com_estado" />
+    <TextInput source="direccion" />
+    <TextInput source="descrip" />
+    <NumberInput source="lat" />
+    <NumberInput  source="long"/>
+    <TextInput source="estado" />
         
         </SimpleForm>
     </Create>

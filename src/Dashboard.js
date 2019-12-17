@@ -2,13 +2,15 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import {Bar, Line,Pie,Doughnut} from 'react-chartjs-2';
+import {Bar, Line,Pie,Doughnut, HorizontalBar} from 'react-chartjs-2';
 import Grid from '@material-ui/core/Grid';
 import { Button } from '@material-ui/core';
 import 'chart.piecelabel.js';
 import Estadisticas_User from './EstadisticasUsers';
 import Estadisticas_Comercio from './EstadisticasComercio';
 let  users=localStorage.getItem('total_usuarios');
+let top_10_users_names=JSON.parse(localStorage.getItem('top_10_users_names'))
+var top_10_users_scores=localStorage.getItem('top_10_users_scores')
 let  clients=localStorage.getItem('total_clientes');
 let  admins=localStorage.getItem('total_administradores');
 let  deliveries=localStorage.getItem('total_deliveries');
@@ -38,6 +40,23 @@ const state = {
         borderColor: 'rgba(1,2,0,1)',
         borderWidth: 2,
         data: [social_users, no_social_users]
+        
+      }
+    ]
+  }
+  
+  const state_top_10 = {
+    
+    labels: Object.keys(top_10_users_names) ,
+    
+    datasets: [
+      {
+        label:"Puntaje",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+        backgroundColor: 'rgba(115,192,192,1)',
+        borderColor: 'rgba(1,2,0,1)',
+        borderWidth: 2,
+        data:Object.values(top_10_users_names) 
         
       }
     ]
@@ -129,25 +148,48 @@ export default () => (
         />
         </div>
         </Grid>
-         
-          <Grid item xs={6}>
-        <div style={{width: 400, height: 300}}>
-        <Line
-          data={state}
+        <Grid item xs={6}>
+       <div style={{width: 400, height: 300}}>
+     
+        <Bar
+          data={state_top_10}
           options={{
             title:{
               display:true,
-              text:state.title,
-              fontSize:20
+              text:"Top users",
+              fontSize:15   
             },
+          ticks: {
+            beginAtZero: true
+            },
+            
+          scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    autoSkip: false,
+                    maxRotation: 0,
+                    minRotation: 0
+                }
+            }],
+            xAxes: [{
+              ticks: {
+                  beginAtZero: true,
+                  autoSkip: false,
+                  maxRotation: 0,
+                  minRotation: 0
+              }
+          }]},
             legend:{
               display:false,
-              position:'false'
+              position:'right'
             }
           }}
         />
-      </div>
-      </Grid>
+        </div>
+        </Grid>
+         
+        
       </Grid>
       <Grid container spacing={24}>
           <Grid item xs={6}>
