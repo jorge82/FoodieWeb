@@ -12,7 +12,7 @@ import {
 import React from 'react'
 import { stringify } from 'query-string';
 import jsonServerProvider from 'ra-data-json-server';
-import FirebaseAuthProvider from './FirebaseAuthProvider';
+
 import { Card } from '@material-ui/core';
 
 
@@ -78,8 +78,8 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
         const query = {
             filter: JSON.stringify({ id: params.ids }),
         };
-        //return { url: `${API_URL}/${resource}?${stringify(query)}` };
-        return { url: `http://localhost:5000/api//${resource}` };
+        return { url: `${API_URL}/${resource}?${stringify(query)}` };
+        //return { url: `http://localhost:5000/api//${resource}` };
     }
     case GET_MANY_REFERENCE: {
         const { page, perPage } = params.pagination;

@@ -2,7 +2,7 @@ import React from 'react';
 import { List, Datagrid, TextField, ReferenceField ,EditButton,DeleteButton, ReferenceInput,
     SimpleForm,SelectInput, TextInput,DisabledInput,LongTextInput,
     Create, Edit,Filter} from 'react-admin';
-import FirebaseAuthProvider from './FirebaseAuthProvider';
+
 
 
 export const UserList = props => (
