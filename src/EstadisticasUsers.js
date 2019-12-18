@@ -24,7 +24,7 @@ class Estadisticas_User extends React.Component {
 
 function Obtener_datos ( resource)  {
    
-  const API_URL=`https://polar-stream-82449.herokuapp.com/api/${resource}`;
+  const API_URL=`wss://polar-stream-82449.herokuapp.com/api/${resource}`;
        
         const request = new Request(API_URL, {
             method: 'GET',
@@ -123,9 +123,10 @@ function getCountRedSocial(obj) {
   }
 
   function get_top10( )  {
-    //const API_URL='http://localhost:5000/api/user/topDiezUser'
+    //const API_URL='http:
+    //localhost:5000/api/user/topDiezUser'
     
-    const API_URL=`https://polar-stream-82449.herokuapp.com/api/user/topDiezUser`;
+    const API_URL=`wss://polar-stream-82449.herokuapp.com/api/user/topDiezUser`;
          
           const request = new Request(API_URL, {
               method: 'GET',
