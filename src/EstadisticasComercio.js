@@ -25,7 +25,7 @@ class Estadisticas_Comercio extends React.Component {
 
 function Obtener_datos ( resource)  {
    
-  const API_URL=`wss://polar-stream-82449.herokuapp.com/api/${resource}`;
+  const API_URL=`https://polar-stream-82449.herokuapp.com/api/${resource}`;
        
         const request = new Request(API_URL, {
             method: 'GET',
