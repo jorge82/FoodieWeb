@@ -4,7 +4,7 @@ import { adminReducer } from 'ra-core';
 import bodyParser from 'body-parser';
 
 //const API_URL_LOGIN = 'http://127.0.0.1:5000/api/user/login'; 
-const API_URL_LOGIN = 'https://polar-stream-82449.herokuapp.com/api/user/login';
+const API_URL_LOGIN = 'wss://polar-stream-82449.herokuapp.com/api/user/login';
 
 
 export default (type, params) => {

@@ -16,7 +16,7 @@ import jsonServerProvider from 'ra-data-json-server';
 import { Card } from '@material-ui/core';
 
 
-const API_URL = 'https://polar-stream-82449.herokuapp.com/api';
+const API_URL = 'wss://polar-stream-82449.herokuapp.com/api';
 
 //const API_URL='http://localhost:5000/api';
 /**
